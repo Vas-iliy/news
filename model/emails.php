@@ -33,6 +33,21 @@ function insertEmail ($params) {
     return true;
 }
 
+function validate (&$params) {
+    $errors =[];
+    $new = $params['email'];
+    $sql = "SELECT email FROM emails WHERE email = '$new'";
+    $data = dbQuery($sql, null);
+    $data = $data->fetch();
+    if ($data) {
+        $errors[] = 'Такой email уже существует';
+    }
+
+    $params['email'] = htmlspecialchars($params['email']);
+
+    return $errors;
+}
+
 
 /*function insertStateUpdate ($params, $id) {
     $sql = "UPDATE articles SET title = :title, content = :content, newTime = current_timestamp, redact = '1' WHERE id = '$id'";
@@ -48,20 +63,7 @@ function deleteState ($id) {
     return true;
 }
 
-function validate (&$params) {
-    $errors =[];
-    if (mb_strlen($params['title'], 'UTF-8') < 3) {
-        $errors[] = 'Слишком короткое название статьи';
-    }
 
-    if (mb_strlen($params['content'], 'UTF-8') < 10) {
-        $errors[] = 'Слишком короткий текст статьи';
-    }
-
-    $params['title'] = htmlspecialchars($params['title']);
-    $params['content'] = htmlspecialchars($params['content']);
-    return $errors;
-}
 
 function thisState($id) {
     $sql = "SELECT id FROM articles WHERE id = '$id'";

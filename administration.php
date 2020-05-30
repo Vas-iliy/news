@@ -17,7 +17,7 @@ if ($_POST['news']) {
 if ($news) {
     $emails = selectEmail();
     foreach ($emails as $email) {
-        mail($email, 'Новая новость', 'Тут текст новой новости')ж
+        mail($email, 'Новая новость', 'Тут текст новой новости');
     }
 }
 
